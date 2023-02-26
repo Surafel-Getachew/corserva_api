@@ -15,6 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: .
+    environment: .env.test
 
     steps:
     - name: Checkout repo
