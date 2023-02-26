@@ -11,7 +11,7 @@
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
     "validate": "npm-run-all lint",
-    "test": "NODE_ENV=test jest --verbose --forceExit --detectOpenHandles --watchAll  --maxWorkers=1"
+    "test": "NODE_ENV=test jest --forceExit --verbose --detectOpenHandles --maxWorkers=1"
   },
   "keywords": [],
   "author": "",
