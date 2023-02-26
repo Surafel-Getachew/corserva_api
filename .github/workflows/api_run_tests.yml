@@ -3,10 +3,10 @@ name: Run tests for API
 on:
   push:
     branches:
-      - dummy_branch
+      - main
   pull_request:
     branches:
-      - dummy_branch
+      - main
 
 jobs:
   run_tests:
