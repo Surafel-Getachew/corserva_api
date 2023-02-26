@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: corserva-db
+    image: postgres:12.4-alpine
+    ports:
+      - '5432:5432'
+    # environment:
+    #   - POSTGRES_DB=corserva-db
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      main:
+        aliases:
+          - "corserva-db"
+
+# networks:
+#   main:
+
+  corserva-api:
+    container_name: corserva-api
+    image: latest/corserva-api
+    build:
+      context: .
+    ports:
+      - '5200:5200'
+    environment:
+      # - NODE_ENV=localhost
+      # - PORT=6001
+      # - DB_NAME=corserva-db
+      # - DB_HOST=db
+      # - DB_USERNAME=postgres
+      # - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_USERNAME=postgres
+    networks:
+      main:
+        aliases:
+          - corserva-api
+    depends_on:
+      # - corserva-db
+      - db
+  
+networks:
+  main:
+
+volumes:
+  pgdata:
+
+

@@ -1,0 +1,25 @@
+name: Run tests for API
+
+on:
+  push:
+    branches:
+      - dummy_branch
+  pull_request:
+    branches:
+      - dummy_branch
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    
+    - name: Run Tests
+      run: |
+        npm install
+        npm run test
