@@ -13,7 +13,7 @@ env:
   DB_USERNAME: ${{secrets.DB_USERNAME}}
   DB_PASSWORD: ${{secrets.DB_PASSWORD}}
   DB_HOST: ${{secrets.DB_HOST}}
-  DB_DIALECT: ${{secrets.DIALECT}}
+  DB_DIALECT: ${{secrets.DB_DIALECT}}
   DB_STORAGE: ${{secrets.DB_STORAGE}}
 
 jobs:
