@@ -1,5 +1,8 @@
 import request from 'supertest';
-import { app, server } from '../server';
+// import { server as app } from '../server';
+import { app } from '../index';
+import connection from '../db/connection';
+
 import Order from '../models/Order';
 import Item from '../models/Item';
 import OrderItem from '../models/OrderItem';
@@ -11,6 +14,18 @@ const sampleItem = {
   availableForSale: true,
   category: 'electronics',
 };
+
+beforeAll(async () => {
+  console.log('Before All running');
+  await connection
+    .sync({ force: true })
+    .then(() => {
+      console.log('All Test *** tables created successfully!');
+    })
+    .catch((error) => {
+      console.log('Error Test **** creating tables:', error);
+    });
+});
 
 const createItem = async () => {
   try {
@@ -249,7 +264,6 @@ afterAll(async () => {
   await Order.destroy({ truncate: true });
   await Item.destroy({ truncate: true });
   await OrderItem.destroy({ truncate: true });
-});
-afterEach(async () => {
-  await server.close();
+  connection.close();
+  // await app.close();
 });

@@ -1,6 +1,21 @@
 import request from 'supertest';
-import { app, server } from '../server';
+import { app } from '../index';
+
+import connection from '../db/connection';
 import Item from '../models/Item';
+
+beforeAll(async () => {
+  console.log('Before All running');
+
+  await connection
+    .sync({ force: true })
+    .then(() => {
+      console.log('All Test *** tables created successfully!');
+    })
+    .catch((error) => {
+      console.log('Error Test **** creating tables:', error);
+    });
+});
 
 const sampleItem = {
   name: 'Mag safe2',
@@ -98,10 +113,7 @@ describe('items', () => {
           availableForSale: 'false',
           type: 'none',
         };
-        const res = await request(app)
-          .put(`/items/${item.id}`)
-          .set('Accept', 'application/json')
-          .send(itemPayload);
+        const res = await request(app).put(`/items/${item.id}`).set('Accept', 'application/json').send(itemPayload);
         expect(res.statusCode).toBe(400);
         await item.destroy();
         await item.save();
@@ -114,10 +126,7 @@ describe('items', () => {
           count: 3,
           availableForSale: false,
         };
-        const res = await request(app)
-          .put(`/items/${item.id}`)
-          .set('Accept', 'application/json')
-          .send(itemPayload);
+        const res = await request(app).put(`/items/${item.id}`).set('Accept', 'application/json').send(itemPayload);
         expect(res.statusCode).toBe(200);
         expect(res.body.count).toStrictEqual(3);
         expect(res.body.availableForSale).toStrictEqual(false);
@@ -128,10 +137,7 @@ describe('items', () => {
   });
 });
 
-
 afterAll(async () => {
   await Item.destroy({ truncate: true });
-});
-afterEach(async () => {
-  await server.close();
+  connection.close();
 });
