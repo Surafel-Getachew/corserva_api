@@ -5,23 +5,8 @@ import { itemValidator } from '../schema-validator/itemValidator';
 const { addItemValidator, updateItemValidator, getSingleItemValidator, deleteItemValidator } = itemValidator;
 
 const getAllItems = async (req: Request, res: Response) => {
-  // const page = parseInt(req?.query?.page as string);
-  // const limit = parseInt(req?.query?.limit as string);
-  // const startIndex = (page - 1) * limit;
-  // const totalDocument = await Rocket.countDocuments();
-  // const totalPage = Math.ceil(totalDocument / limit);
-
-  // if (page && limit) {
-  //   items = await Item.findAll({
-  //     limit,
-  //     offset: startIndex,
-  //   });
-  // } else {
-  //   items = await Item.findAll();
-  // }
   const items = await Item.findAll();
   if (!items) return res.status(204).json({ message: 'No items found.' });
-  // res.json({ items, totalPage });
   return res.json(items);
 };
 
@@ -44,7 +29,8 @@ const addNewItem = async (req: Request, res: Response) => {
 
 const updateItem = async (req: Request, res: Response) => {
   const { error, value } = updateItemValidator({ ...req?.body, ...req.params });
-  const { id, name, count, pricePerUnit, availableForSale, category } = value;
+  const { name, count, pricePerUnit, availableForSale, category } = value;
+  const id: number = value.id;
 
   if (error) {
     return res.status(400).send(error?.details);
@@ -85,7 +71,7 @@ const deleteItem = async (req: Request, res: Response) => {
   if (error) {
     return res.status(400).json(error?.details);
   }
-  const { id } = value;
+  const id:number = value.id
 
   try {
     const item = await Item.destroy({
@@ -93,7 +79,7 @@ const deleteItem = async (req: Request, res: Response) => {
         id,
       },
     });
-    if (item == 0) {
+    if (item === 0) {
       return res.status(204).json({ message: `No item matches ID ${id}.` });
     }
     res.json(item); // it just returns the number of affected rows
@@ -109,7 +95,8 @@ const getItem = async (req: Request, res: Response) => {
   if (error) {
     return res.status(400).json(error?.details);
   }
-  const { id } = value;
+  const id:number = value.id
+
   let item;
   try {
     item = await Item.findOne({

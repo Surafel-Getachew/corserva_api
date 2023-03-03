@@ -2,13 +2,9 @@ import {
   Table,
   Column,
   Model,
-  HasMany,
-  DataType,
   CreatedAt,
   UpdatedAt,
   DeletedAt,
-  Default,
-  ForeignKey,
   BelongsToMany,
   BeforeDestroy
 } from 'sequelize-typescript'

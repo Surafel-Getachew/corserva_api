@@ -7,8 +7,6 @@ import {
   UpdatedAt,
   DeletedAt,
   Default,
-  PrimaryKey,
-  ForeignKey,
   BelongsToMany
 } from 'sequelize-typescript'
 

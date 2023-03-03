@@ -24,7 +24,7 @@ const getOrder = async (req: Request, res: Response) => {
   if (error) {
     return res.status(400).json(error?.details);
   }
-  const { id } = value;
+  const id:number = value.id
   const order = await Order.findOne({
     where: {
       id,
@@ -188,18 +188,18 @@ const deleteOrder = async (req: Request, res: Response) => {
   }
   // If there is order
   // update the count of all items
-  // and delete order_items that contains orderId:id
-  const order_items = await OrderItem.findAll({
+  // and delete orderItems that contains orderId:id
+  const orderItems = await OrderItem.findAll({
     where: {
       orderId: id,
     },
   });
 
   await Promise.all(
-    order_items.map(async (order_item: OrderItem) => {
-      const item = await Item.findOne({ where: { id: order_item.itemId } });
+    orderItems.map(async (orderItem: OrderItem) => {
+      const item = await Item.findOne({ where: { id: orderItem.itemId } });
       if (item != null) {
-        item.count += order_item.quantity;
+        item.count += orderItem.quantity;
       }
       await item?.save();
     })

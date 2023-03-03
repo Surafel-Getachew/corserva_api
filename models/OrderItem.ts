@@ -1,38 +1,25 @@
-import {
-  Table,
-  Column,
-  Model,
-  HasMany,
-  DataType,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
-  Default,
-  ForeignKey,
-  BelongsToMany,
-  BeforeDestroy
-} from 'sequelize-typescript'
-import Item from './Item'
-import Order from './Order'
+import { Table, Column, Model, UpdatedAt, DeletedAt, ForeignKey } from 'sequelize-typescript';
+import Item from './Item';
+import Order from './Order';
 
 @Table
 class OrderItem extends Model {
   @ForeignKey(() => Item)
   @Column
-    itemId: number
+  itemId: number;
 
   @ForeignKey(() => Order)
   @Column
-    orderId: number
+  orderId: number;
 
   @Column
-    quantity: number
+  quantity: number;
 
   @UpdatedAt
-    updatedOn: Date
+  updatedOn: Date;
 
   @DeletedAt
-    deletionDate: Date
+  deletionDate: Date;
 }
 
-export default OrderItem
+export default OrderItem;
